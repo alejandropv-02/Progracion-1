@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+
+class Usuario
+{
+    public string Nombre { get; set; }
+    public double DineroActual { get; set; }
+    public double IngresoMensual { get; set; }
+    public double GastosFijos { get; set; }
+
+    public Usuario(string nombre, double ingreso, double gastos)
+    {
+        Nombre = nombre;
+        IngresoMensual = ingreso;
+        GastosFijos = gastos;
+        DineroActual = 0;
+    }
+
+    public void RecibirIngreso()
+    {
+        DineroActual += IngresoMensual;
+    }
+
+    public void PagarGastos()
+    {
+        DineroActual -= GastosFijos;
+    }
+
+    public void AplicarCambio(double monto)
+    {
+        DineroActual += monto;
+    }
+}
+
+class Evento
+{
+    public string NombreEvento { get; set; }
+    public double ImpactoDinero { get; set; }
+
+    public Evento(string nombre, double impacto)
+    {
+        NombreEvento = nombre;
+        ImpactoDinero = impacto;
+    }
+
+    public void AplicarEvento(Usuario usuario)
+    {
+        usuario.AplicarCambio(ImpactoDinero);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Ingrese su nombre: ");
+        string nombre = Console.ReadLine();
+
+        Console.Write("Ingreso mensual: ");
+        double ingreso = double.Parse(Console.ReadLine());
+
+        Console.Write("Gastos fijos: ");
+        double gastos = double.Parse(Console.ReadLine());
+
+        Usuario usuario = new Usuario(nombre, ingreso, gastos);
+
+        List<Evento> eventos = new List<Evento>()
+        {
+            new Evento("Bono salarial", 5000),
+            new Evento("Reparación de vehículo", -3000),
+            new Evento("Inversión exitosa", 7000),
+            new Evento("Inversión fallida", -4000),
+            new Evento("Emergencia médica", -6000)
+        };
+
+        Random random = new Random();
+
+        for (int mes = 1; mes <= 12; mes++)
+        {
+            Console.WriteLine("\nMes " + mes);
+
+            usuario.RecibirIngreso();
+            usuario.PagarGastos();
+
+            Evento evento = eventos[random.Next(eventos.Count)];
+            evento.AplicarEvento(usuario);
+
+            Console.WriteLine("Evento: " + evento.NombreEvento);
+            Console.WriteLine("Dinero actual: " + usuario.DineroActual);
+        }
+
+        Console.WriteLine("\n-Resumen Final-");
+        Console.WriteLine("Dinero final: " + usuario.DineroActual);
+
+        if (usuario.DineroActual > 20000)
+            Console.WriteLine("Buena gestión financiera");
+        else if (usuario.DineroActual > 0)
+            Console.WriteLine("Gestión regular");
+        else
+            Console.WriteLine("Mala gestión financiera");
+    }
+}
