@@ -89,7 +89,7 @@ class Program
             Console.WriteLine("Dinero actual: " + usuario.DineroActual);
         }
 
-        Console.WriteLine("\n-Resumen Final-");
+        Console.WriteLine("\n- Resumen Final -");
         Console.WriteLine("Dinero final: " + usuario.DineroActual);
 
         if (usuario.DineroActual > 20000)
